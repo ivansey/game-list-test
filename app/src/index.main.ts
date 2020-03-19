@@ -1,7 +1,5 @@
-let model: object = {};
-
-let listApp = angular.module("listApp", []);
-    listApp.controller("listController", ($scope, $http) => {
+let listApp = angular.module("listApp", [])
+    .controller("listController", ($scope, $http) => {
         $scope.db = {};
         $scope.limit = 20;
         $scope.data = {
@@ -14,5 +12,29 @@ let listApp = angular.module("listApp", []);
 
         $scope.changeLimit = (val) => {
             $scope.limit = parseInt(val);
+        }
+
+        $scope.sortGames = (field, type) => {
+            if (field === "Name") {
+                $scope.db.games = $scope.db.games.sort((a, b) => {
+                    if (type === "+") {
+                        if (a.Name.en > b.Name.en) {
+                            return 1;
+                        } 
+                        if (a.Name.en < b.Name.en) {
+                            return -1;
+                        }
+                        return 0;
+                    } else if (type === "-") {
+                        if (a.Name.en < b.Name.en) {
+                            return 1;
+                        } 
+                        if (a.Name.en > b.Name.en) {
+                            return -1;
+                        }
+                        return 0;
+                    }
+                })
+            }
         }
     });

@@ -2,6 +2,10 @@
     "compilerOptions": {
         "target": "es5",
         "sourceMap": true,
-        "outDir": "../dist/"
-    }
+        "outDir": "../dist/",
+        "outFile": "../dist/bundle.js",
+        "module": "amd",
+        "allowJs": true
+    },
+    "include": ["./**/*"]
 }
