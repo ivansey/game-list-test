@@ -3,21 +3,10 @@
     <head>
         <meta charset="utf-8">
     </head>
-    <body ng-controller="listController">
-        <form class=formIndex ng-submit="changeLimit(data.limit)">
-            <label for="limitElInPage">Количество элементов на странице</label>
-            <input name="limitElInPage" type="number" ng-model="data.limit">
-            <button type="submit">Изменить</button>
-        </form>
-        <button ng-click="sortGames('Name', '+')">A-Z</button>
-        <button ng-click="sortGames('Name', '-')">Z-A</button>
-        <div class="listGames">
-            <div class="game" ng-repeat="game in db.games" ng-if="$index < limit">
-                <p class="title">{{$index + 1}} {{game.Name.en}}</p>
-            </div>
-        </div>
+    <body>
+        <div ng-include="'./src/components/listGames.html'"></div>
 
-        <script src="./dist/bundle.js"></script>
         <script src="./bower_components/angular/angular.min.js"></script>
+        <script src="./dist/bundle.js"></script>
     </body>
 </html>
