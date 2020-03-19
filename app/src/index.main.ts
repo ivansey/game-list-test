@@ -1,12 +1,9 @@
-/// <reference path="../../typings/main.d.ts" />
+let model: object = {};
 
-module CompanyManagerApp {
-    
-    angular.module('companyManagerApp', ['ngMaterial', 'ngMdIcons', 'ngSanitize', 'ngMessages'])
-        .controller('mainController', MainController)
-        .service('companyService', CompanyService)
-        .config(ConfigMaterial);
-    
-}
-
-console.log('by RicardoCanelas.com');
+let listApp = angular.module("listApp", []);
+    listApp.controller("listController", ($scope, $http) => {
+        $scope.db = {};
+        $http({method: "GET", url: "/database.json"}).then((data) => {
+            $scope.db = data.data;
+        })
+    });

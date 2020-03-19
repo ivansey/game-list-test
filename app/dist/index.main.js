@@ -1,10 +1,9 @@
-/// <reference path="../../typings/main.d.ts" />
-var CompanyManagerApp;
-(function (CompanyManagerApp) {
-    angular.module('companyManagerApp', ['ngMaterial', 'ngMdIcons', 'ngSanitize', 'ngMessages'])
-        .controller('mainController', CompanyManagerApp.MainController)
-        .service('companyService', CompanyManagerApp.CompanyService)
-        .config(CompanyManagerApp.ConfigMaterial);
-})(CompanyManagerApp || (CompanyManagerApp = {}));
-console.log('by RicardoCanelas.com');
+var model = {};
+var listApp = angular.module("listApp", []);
+listApp.controller("listController", function ($scope, $http) {
+    $scope.db = {};
+    $http({ method: "GET", url: "/database.json" }).then(function (data) {
+        $scope.db = data.data;
+    });
+});
 //# sourceMappingURL=index.main.js.map

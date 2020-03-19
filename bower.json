@@ -1,13 +1,11 @@
 {
-  "name": "sample-angularjs-and-typescript-company-manager",
+  "name": "games-list-test",
   "authors": [
-    "Ricardo Canelas"
+    "IvanSey"
   ],
-  "description": "It's a simple sample using Angularjs 1.5.2 and TypeScript.",
+  "description": "",
   "main": "",
   "moduleType": [],
-  "license": "MIT",
-  "homepage": "http://www.ricardocanelas.com",
   "ignore": [
     "**/.*",
     "node_modules",
