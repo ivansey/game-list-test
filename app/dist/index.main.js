@@ -2,7 +2,7 @@ var model = {};
 var listApp = angular.module("listApp", []);
 listApp.controller("listController", function ($scope, $http) {
     $scope.db = {};
-    $scope.limit = 0;
+    $scope.limit = 20;
     $scope.data = {
         limit: 20,
     };
