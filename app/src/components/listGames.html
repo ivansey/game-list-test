@@ -1,14 +1,10 @@
-<div ng-controller="listController">
-    <form class=formIndex ng-submit="changeLimit(data.limit)">
-        <label for="limitElInPage">Количество элементов на странице</label>
-        <input name="limitElInPage" type="number" ng-model="data.limit">
-        <button type="submit">Изменить</button>
-    </form>
-    <button ng-click="sortGames('Name', '+')">A-Z</button>
-    <button ng-click="sortGames('Name', '-')">Z-A</button>
-    <div class="listGames">
-        <div class="game" ng-repeat="game in db.games" ng-if="$index < limit">
-            <p class="title">{{$index + 1}} {{game.Name.en}}</p>
+<div class="p-2" ng-controller="listController">
+    <div ng-include="'./src/components/listGames/limitElInPage.html'"></div>
+    <div ng-include="'./src/components/listGames/sortElInPage.html'"></div>
+    <br/>
+    <div class="listGames row m-0">
+        <div class="game w-25" ng-repeat="game in db.games" ng-if="$index < limit">
+            <div ng-include="'./src/components/listGames/cardGame.html'"></div>
         </div>
     </div>
 </div>
