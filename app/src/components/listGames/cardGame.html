@@ -5,7 +5,8 @@
         <p><i>#{{game.ID}}</i></p>
         <div class="btn-group" role="group">
             <button class="btn btn-primary"><span class="mdi mdi-play"></span> Запустить</button>
-            <button class="btn btn-primary"><span class="mdi mdi-bookmark-plus"></span></button>
+            <button class="btn btn-primary" ng-click="addToBookmark(game.ID)" ng-if="checkBookmark(game.ID) === false"><span class="mdi mdi-bookmark-plus"></span></button>
+            <button class="btn btn-danger" ng-click="deleteBookmark(game.ID)" ng-if="checkBookmark(game.ID) === true"><span class="mdi mdi-bookmark-minus"></span></button>
         </div>
     </div>
 </div>

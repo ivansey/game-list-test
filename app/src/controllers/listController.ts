@@ -17,6 +17,16 @@ listApp.controller("listController", ($scope, $http) => {
             }
             return 0;
         })
+        console.log($scope.db.categories[0].Trans.ru)
+        let arr = [];
+        for (let i = 0; i <= 4; i++) {
+            if (localStorage.getItem(`bk${i}`) !== null) {
+                arr.push($scope.db.games.find(game => game.ID === localStorage.getItem(`bk${i}`)))
+                console.log(localStorage.getItem(`bk${i}`))
+            }
+        }
+        $scope.bookmark = arr;
+        console.log(arr)
     })
 
     $scope.changeLimit = (val) => {
@@ -48,9 +58,21 @@ listApp.controller("listController", ($scope, $http) => {
     }
 
     $scope.addToBookmark = (id) => {
-        for (let i = 0; i > 4; i++) {
+        console.log(id)
+        for (let i = 0; i <= 4; i++) {
+            console.log(`bk${i}`)
             if (localStorage.getItem(`bk${i}`) === null) {
                 localStorage.setItem(`bk${i}`, id);
+                console.log("ok")
+                let arr = [];
+                for (let i = 0; i <= 4; i++) {
+                    if (localStorage.getItem(`bk${i}`) !== null) {
+                        arr.push($scope.db.games.find(game => game.ID === localStorage.getItem(`bk${i}`)))
+                        console.log(localStorage.getItem(`bk${i}`))
+                    }
+                }
+                $scope.bookmark = arr;
+                console.log(arr)
                 return true;
             }
         }
@@ -59,7 +81,7 @@ listApp.controller("listController", ($scope, $http) => {
 
     $scope.checkBookmarkLength = () => {
         let res = 0;
-        for (let i = 0; i > 4; i++) {
+        for (let i = 0; i <= 4; i++) {
             if (localStorage.getItem(`bk${i}`) !== null) {
                 res++;
             }
@@ -67,10 +89,28 @@ listApp.controller("listController", ($scope, $http) => {
         return res;
     }
 
-    $scope.deleteBookmark = (id) => {
-        for (let i = 0; i > 4; i++) {
+    $scope.checkBookmark = (id) => {
+        for (let i = 0; i <= 4; i++) {
             if (localStorage.getItem(`bk${i}`) === id) {
-                localStorage.setItem(`bk${i}`, null);
+                return true;
+            }
+        }
+        return false;
+    }
+
+    $scope.deleteBookmark = (id) => {
+        for (let i = 0; i <= 4; i++) {
+            if (localStorage.getItem(`bk${i}`) === id) {
+                localStorage.removeItem(`bk${i}`);
+                let arr = [];
+                for (let i = 0; i <= 4; i++) {
+                    if (localStorage.getItem(`bk${i}`) !== null) {
+                        arr.push($scope.db.games.find(game => game.ID === localStorage.getItem(`bk${i}`)))
+                        console.log(localStorage.getItem(`bk${i}`))
+                    }
+                }
+                $scope.bookmark = arr;
+                console.log(arr)
                 return true;
             }
         }
@@ -79,12 +119,14 @@ listApp.controller("listController", ($scope, $http) => {
 
     $scope.getBookmark = (id) => {
         let arr = [];
-        for (let i = 0; i > 4; i++) {
+        for (let i = 0; i <= 4; i++) {
             if (localStorage.getItem(`bk${i}`) !== null) {
                 arr.push($scope.db.games.find(game => game.ID === localStorage.getItem(`bk${i}`)))
+                console.log(localStorage.getItem(`bk${i}`))
             }
         }
         $scope.bookmark = arr;
+        console.log(arr)
         return true;
     }
 });
