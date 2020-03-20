@@ -6,33 +6,7 @@
         <link rel="stylesheet" href="//cdn.materialdesignicons.com/5.0.45/css/materialdesignicons.min.css">
     </head>
     <body ng-controller="listController">
-        <nav class="navbar bg-primary navbar-light navbar-expand-lg">
-            <a class="navbar-brand">List Game Test</a>
-
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav mr-auto d-flex align-items-center">
-                    <a class="nav-link" href="#">Главная</a>
-                    <li class="nav-link dropdown" href="#">
-                        <a class="nav-link dropdown-toggle" href="#" id="categories-dropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            Категории
-                        </a>
-                        <div class="dropdown-menu" aria-labelledby="categories-dropdown">
-                            <a ng-repeat="cat in db.categories" class="nav-link" href="#" ng-click="changeCategory(cat.ID)">{{cat.Name.en}}</a>
-                        </div>
-                    </li>
-                    <li class="nav-link dropdown" href="#">
-                        <a class="nav-link dropdown-toggle" href="#" id="categories-dropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            Провайдер
-                        </a>
-                        <div class="dropdown-menu" aria-labelledby="categories-dropdown">
-                            <a ng-repeat="merch in db.merchants" class="nav-link" href="#" ng-click="changeMerchant(merch.ID)">{{merch.Name}}</a>
-                        </div>
-                    </li>
-                    <a href="#" class="nav-link">Всего игр: {{backup.games.length}}</a>
-                    <a href="#" class="nav-link">Показано игр: {{limit}} из {{db.games.length}}</a>
-                </ul>
-            </div>
-        </nav>
+        <div ng-include="'./src/components/header.html'"></div>
         <div ng-include="'./src/components/listGames.html'"></div>
 
         <script src="./bower_components/angular/angular.min.js"></script>
