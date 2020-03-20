@@ -1,13 +1,36 @@
 var listApp = angular.module("listApp", []);
+Array.prototype.remove = function (value) {
+    var idx = this.indexOf(value);
+    if (idx != -1) {
+        // Второй параметр - число элементов, которые необходимо удалить
+        return this.splice(idx, 1);
+    }
+    return false;
+};
 listApp.controller("listController", function ($scope, $http) {
-    $scope.db = {};
+    $scope.db = [];
+    $scope.backup = [];
     $scope.limit = 20;
     $scope.data = {
         limit: 20,
     };
     $scope.bookmark = [];
+    $scope.category = "";
+    $scope.merchant = "";
     $http({ method: "GET", url: "/database.json" }).then(function (data) {
-        $scope.db = data.data;
+        console.log(data);
+        $scope.db = Object.assign({}, data.data);
+        $scope.backup = Object.assign({}, data.data);
+        var arr = [];
+        if ($scope.category !== "") {
+            $scope.db.games.map(function (item) {
+                if (item.CategoryID.indexOf($scope) !== -1) {
+                    arr.push(item);
+                }
+            });
+            console.log(arr);
+            $scope.db.games = arr.slice(0);
+        }
         $scope.db.games = $scope.db.games.sort(function (a, b) {
             if (a.Name.en > b.Name.en) {
                 return 1;
@@ -17,8 +40,7 @@ listApp.controller("listController", function ($scope, $http) {
             }
             return 0;
         });
-        console.log($scope.db.categories[0].Trans.ru);
-        var arr = [];
+        arr = [];
         var _loop_1 = function (i) {
             if (localStorage.getItem("bk" + i) !== null) {
                 arr.push($scope.db.games.find(function (game) { return game.ID === localStorage.getItem("bk" + i); }));
@@ -28,7 +50,7 @@ listApp.controller("listController", function ($scope, $http) {
         for (var i = 0; i <= 4; i++) {
             _loop_1(i);
         }
-        $scope.bookmark = arr;
+        $scope.bookmark = arr.slice(0);
         console.log(arr);
     });
     $scope.changeLimit = function (val) {
@@ -134,6 +156,34 @@ listApp.controller("listController", function ($scope, $http) {
         $scope.bookmark = arr;
         console.log(arr);
         return true;
+    };
+    $scope.changeCategory = function (id) {
+        $scope.category = id;
+        var arr = [];
+        if ($scope.category !== "") {
+            $scope.backup.games.map(function (item) {
+                // console.log(`${$scope.category} = ${item.CategoryID[0]} && ${item.CategoryID[1]} && ${item.CategoryID[2]}`)
+                // console.log(item.CategoryID.indexOf($scope.category));
+                if (item.CategoryID.indexOf($scope.category) !== -1) {
+                    arr.push(item);
+                    console.log("item");
+                }
+            });
+            // console.log(arr);
+            $scope.db.games = arr.slice(0);
+            console.log($scope.db.games);
+            console.log($scope.backup.games);
+        }
+    };
+    $scope.checkIfGameCard = function (category) {
+        console.log(category);
+        if ($scope.category === "") {
+            return true;
+        }
+        else if (category.indexOf($scope.category) !== -1) {
+            return true;
+        }
+        return false;
     };
 });
 //# sourceMappingURL=bundle.js.map

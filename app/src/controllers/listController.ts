@@ -1,13 +1,28 @@
 listApp.controller("listController", ($scope, $http) => {
-    $scope.db = {};
+    $scope.db = [];
+    $scope.backup = [];
     $scope.limit = 20;
     $scope.data = {
         limit: 20,
     }
     $scope.bookmark = [];
+    $scope.category = "";
+    $scope.merchant = "";
 
     $http({method: "GET", url: "/database.json"}).then((data) => {
-        $scope.db = data.data;
+        console.log(data)
+        $scope.db = Object.assign({}, data.data);
+        $scope.backup = Object.assign({}, data.data);
+        let arr = [];
+        if ($scope.category !== "") {
+            $scope.db.games.map((item) => {
+                if (item.CategoryID.indexOf($scope) !== -1) {
+                    arr.push(item);
+                }
+            })
+            console.log(arr)
+            $scope.db.games = arr.slice(0);
+        }
         $scope.db.games = $scope.db.games.sort((a, b) => {
             if (a.Name.en > b.Name.en) {
                 return 1;
@@ -17,15 +32,14 @@ listApp.controller("listController", ($scope, $http) => {
             }
             return 0;
         })
-        console.log($scope.db.categories[0].Trans.ru)
-        let arr = [];
+        arr = [];
         for (let i = 0; i <= 4; i++) {
             if (localStorage.getItem(`bk${i}`) !== null) {
                 arr.push($scope.db.games.find(game => game.ID === localStorage.getItem(`bk${i}`)))
                 console.log(localStorage.getItem(`bk${i}`))
             }
         }
-        $scope.bookmark = arr;
+        $scope.bookmark = arr.slice(0);
         console.log(arr)
     })
 
@@ -128,5 +142,34 @@ listApp.controller("listController", ($scope, $http) => {
         $scope.bookmark = arr;
         console.log(arr)
         return true;
+    }
+
+    $scope.changeCategory = (id) => {
+        $scope.category = id;
+        let arr = [];
+        if ($scope.category !== "") {
+            $scope.backup.games.map((item) => {
+                // console.log(`${$scope.category} = ${item.CategoryID[0]} && ${item.CategoryID[1]} && ${item.CategoryID[2]}`)
+                // console.log(item.CategoryID.indexOf($scope.category));
+                if (item.CategoryID.indexOf($scope.category) !== -1) {
+                    arr.push(item);
+                    console.log("item");
+                }
+            })
+            // console.log(arr);
+            $scope.db.games = arr.slice(0);
+            console.log($scope.db.games);
+            console.log($scope.backup.games);
+        }
+    }
+
+    $scope.checkIfGameCard = (category) => {
+        console.log(category);
+        if ($scope.category === "") {
+            return true;
+        } else if (category.indexOf($scope.category) !== -1) {
+            return true;
+        }        
+        return false;
     }
 });

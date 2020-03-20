@@ -5,8 +5,8 @@
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
         <link rel="stylesheet" href="//cdn.materialdesignicons.com/5.0.45/css/materialdesignicons.min.css">
     </head>
-    <body>
-        <nav class="navbar bg-primary navbar-light navbar-expand-lg" ng-controller="listController"></nav>
+    <body ng-controller="listController">
+        <nav class="navbar bg-primary navbar-light navbar-expand-lg">
             <a class="navbar-brand">List Game Test</a>
 
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
@@ -17,7 +17,7 @@
                             Категории
                         </a>
                         <div class="dropdown-menu" aria-labelledby="categories-dropdown">
-                            <a ng-repeat="category in db.categories" class="nav-link" href="#">{{category.Name.en}}</a>
+                            <a ng-repeat="cat in db.categories" class="nav-link" href="#" ng-click="changeCategory(cat.ID)">{{cat.Name.en}}</a>
                         </div>
                     </li>
                     <li class="nav-link dropdown" href="#">
@@ -25,7 +25,7 @@
                             Провайдер
                         </a>
                         <div class="dropdown-menu" aria-labelledby="categories-dropdown">
-                            <a ng-repeat="merchant in db.merchants" class="nav-link" href="#">{{merchant.Name}}</a>
+                            <a ng-repeat="merch in db.merchants" class="nav-link" href="#">{{merch.Name}}</a>
                         </div>
                     </li>
                 </ul>
