@@ -4,14 +4,15 @@ listApp.controller("listController", ($scope, $http) => {
     $scope.limit = 20;
     $scope.data = {
         limit: 20,
+        searchText: "",
     }
     $scope.bookmark = [];
     $scope.category = "";
     $scope.merchant = "";
     $scope.response = "loading";
+    $scope.searchText = "";
 
     $http({method: "GET", url: "/database.json"}).then((data) => {
-        console.log(data)
         $scope.db = Object.assign({}, data.data);
         $scope.backup = Object.assign({}, data.data);
         let arr = [];
@@ -21,7 +22,6 @@ listApp.controller("listController", ($scope, $http) => {
                     arr.push(item);
                 }
             })
-            console.log(arr)
             $scope.db.games = arr.slice(0);
         }
         $scope.db.games = $scope.db.games.sort((a, b) => {
@@ -37,16 +37,18 @@ listApp.controller("listController", ($scope, $http) => {
         for (let i = 0; i <= 4; i++) {
             if (localStorage.getItem(`bk${i}`) !== null) {
                 arr.push($scope.db.games.find(game => game.ID === localStorage.getItem(`bk${i}`)))
-                console.log(localStorage.getItem(`bk${i}`))
             }
         }
         $scope.bookmark = arr.slice(0);
-        console.log(arr)
         $scope.response = "done";
     })
 
     $scope.changeLimit = (val) => {
         $scope.limit = parseInt(val);
+    }
+
+    $scope.changeSearchText = (val) => {
+        $scope.searchText = val;
     }
 
     $scope.sortGames = (field, type) => {
@@ -76,21 +78,16 @@ listApp.controller("listController", ($scope, $http) => {
     }
 
     $scope.addToBookmark = (id) => {
-        console.log(id)
         for (let i = 0; i <= 4; i++) {
-            console.log(`bk${i}`)
             if (localStorage.getItem(`bk${i}`) === null) {
                 localStorage.setItem(`bk${i}`, id);
-                console.log("ok")
                 let arr = [];
                 for (let i = 0; i <= 4; i++) {
                     if (localStorage.getItem(`bk${i}`) !== null) {
                         arr.push($scope.db.games.find(game => game.ID === localStorage.getItem(`bk${i}`)))
-                        console.log(localStorage.getItem(`bk${i}`))
                     }
                 }
                 $scope.bookmark = arr;
-                console.log(arr)
                 return true;
             }
         }
@@ -124,11 +121,9 @@ listApp.controller("listController", ($scope, $http) => {
                 for (let i = 0; i <= 4; i++) {
                     if (localStorage.getItem(`bk${i}`) !== null) {
                         arr.push($scope.db.games.find(game => game.ID === localStorage.getItem(`bk${i}`)))
-                        console.log(localStorage.getItem(`bk${i}`))
                     }
                 }
                 $scope.bookmark = arr;
-                console.log(arr)
                 return true;
             }
         }
@@ -140,11 +135,9 @@ listApp.controller("listController", ($scope, $http) => {
         for (let i = 0; i <= 4; i++) {
             if (localStorage.getItem(`bk${i}`) !== null) {
                 arr.push($scope.db.games.find(game => game.ID === localStorage.getItem(`bk${i}`)))
-                console.log(localStorage.getItem(`bk${i}`))
             }
         }
         $scope.bookmark = arr;
-        console.log(arr)
         return true;
     }
 
@@ -154,17 +147,11 @@ listApp.controller("listController", ($scope, $http) => {
         let arr = [];
         if ($scope.category !== "") {
             $scope.backup.games.map((item) => {
-                // console.log(`${$scope.category} = ${item.CategoryID[0]} && ${item.CategoryID[1]} && ${item.CategoryID[2]}`)
-                // console.log(item.CategoryID.indexOf($scope.category));
                 if (item.CategoryID.indexOf($scope.category) !== -1) {
                     arr.push(item);
-                    console.log("item");
                 }
             })
-            // console.log(arr);
             $scope.db.games = arr.slice(0);
-            console.log($scope.db.games);
-            console.log($scope.backup.games);
         }
         $scope.response = "done";
     }
@@ -177,39 +164,44 @@ listApp.controller("listController", ($scope, $http) => {
             $scope.backup.games.map((item) => {
                 if (item.MerchantID === $scope.merchant) {
                     arr.push(item);
-                    console.log("item");
                 }
             })
             $scope.db.games = arr.slice(0);
-            console.log($scope.db.games);
-            console.log($scope.backup.games);
         }
         $scope.response = "done";
     }
 
+    $scope.findGame = (text, arr) => {
+        let res = [];
+        arr.map(game => {
+            if (game.Name.en.test(`/${text}/i`) === true) {
+                res.push(game);
+            }
+        })
+        if (res.length === 0) {
+            return false;
+        }
+        return res;
+    }
+
     $scope.checkIfGameCard = (game, index) => {
-        // console.log(game.CategoryID);
-        // console.log(`Cat: ${$scope.category} === ${game.CategoryID[0]} && ${game.CategoryID[1]} && ${game.CategoryID[2]} (indexOf: ${game.CategoryID.indexOf($scope.category)})\nMerch: ${$scope.merchant} === ${game.MerchantID}`)
-        if (index < $scope.limit) {
-            if ($scope.category === "") {
-                if ($scope.merchant === "") {
-                    console.log("check true");
-                    return true;
-                } else if (game.MerchantID === $scope.merchant) {
-                    console.log("check true");
-                    return true;
-                }
-            } else if (game.CategoryID.indexOf($scope.category) !== -1) {
-                if ($scope.merchant === "") {
-                    console.log("check true");
-                    return true;
-                } else if (game.MerchantID === $scope.merchant) {
-                    console.log("check true");
-                    return true;
+        if (game.Name.en.toUpperCase().indexOf($scope.searchText.toUpperCase()) !== -1 || $scope.searchText === "") {
+            if (index < $scope.limit) {
+                if ($scope.category === "") {
+                    if ($scope.merchant === "") {
+                        return true;
+                    } else if (game.MerchantID === $scope.merchant) {
+                        return true;
+                    }
+                } else if (game.CategoryID.indexOf($scope.category) !== -1) {
+                    if ($scope.merchant === "") {
+                        return true;
+                    } else if (game.MerchantID === $scope.merchant) {
+                        return true;
+                    }
                 }
             }
-        }
-        console.log("check false");        
+        }      
         return false;
     }
 });
