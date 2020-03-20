@@ -8,6 +8,7 @@ listApp.controller("listController", ($scope, $http) => {
     $scope.bookmark = [];
     $scope.category = "";
     $scope.merchant = "";
+    $scope.response = "loading";
 
     $http({method: "GET", url: "/database.json"}).then((data) => {
         console.log(data)
@@ -41,6 +42,7 @@ listApp.controller("listController", ($scope, $http) => {
         }
         $scope.bookmark = arr.slice(0);
         console.log(arr)
+        $scope.response = "done";
     })
 
     $scope.changeLimit = (val) => {
@@ -48,6 +50,7 @@ listApp.controller("listController", ($scope, $http) => {
     }
 
     $scope.sortGames = (field, type) => {
+        $scope.response = "loading";
         if (field === "Name") {
             $scope.db.games = $scope.db.games.sort((a, b) => {
                 if (type === "+") {
@@ -69,6 +72,7 @@ listApp.controller("listController", ($scope, $http) => {
                 }
             })
         }
+        $scope.response = "done";
     }
 
     $scope.addToBookmark = (id) => {
@@ -145,6 +149,7 @@ listApp.controller("listController", ($scope, $http) => {
     }
 
     $scope.changeCategory = (id) => {
+        $scope.response = "loading";
         $scope.category = id;
         let arr = [];
         if ($scope.category !== "") {
@@ -161,9 +166,11 @@ listApp.controller("listController", ($scope, $http) => {
             console.log($scope.db.games);
             console.log($scope.backup.games);
         }
+        $scope.response = "done";
     }
 
     $scope.changeMerchant = (id) => {
+        $scope.response = "loading";
         $scope.merchant = id;
         let arr = [];
         if ($scope.merchant !== "") {
@@ -177,6 +184,7 @@ listApp.controller("listController", ($scope, $http) => {
             console.log($scope.db.games);
             console.log($scope.backup.games);
         }
+        $scope.response = "done";
     }
 
     $scope.checkIfGameCard = (game, index) => {

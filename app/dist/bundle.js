@@ -17,6 +17,7 @@ listApp.controller("listController", function ($scope, $http) {
     $scope.bookmark = [];
     $scope.category = "";
     $scope.merchant = "";
+    $scope.response = "loading";
     $http({ method: "GET", url: "/database.json" }).then(function (data) {
         console.log(data);
         $scope.db = Object.assign({}, data.data);
@@ -52,11 +53,13 @@ listApp.controller("listController", function ($scope, $http) {
         }
         $scope.bookmark = arr.slice(0);
         console.log(arr);
+        $scope.response = "done";
     });
     $scope.changeLimit = function (val) {
         $scope.limit = parseInt(val);
     };
     $scope.sortGames = function (field, type) {
+        $scope.response = "loading";
         if (field === "Name") {
             $scope.db.games = $scope.db.games.sort(function (a, b) {
                 if (type === "+") {
@@ -79,6 +82,7 @@ listApp.controller("listController", function ($scope, $http) {
                 }
             });
         }
+        $scope.response = "done";
     };
     $scope.addToBookmark = function (id) {
         console.log(id);
@@ -158,6 +162,7 @@ listApp.controller("listController", function ($scope, $http) {
         return true;
     };
     $scope.changeCategory = function (id) {
+        $scope.response = "loading";
         $scope.category = id;
         var arr = [];
         if ($scope.category !== "") {
@@ -174,8 +179,10 @@ listApp.controller("listController", function ($scope, $http) {
             console.log($scope.db.games);
             console.log($scope.backup.games);
         }
+        $scope.response = "done";
     };
     $scope.changeMerchant = function (id) {
+        $scope.response = "loading";
         $scope.merchant = id;
         var arr = [];
         if ($scope.merchant !== "") {
@@ -189,6 +196,7 @@ listApp.controller("listController", function ($scope, $http) {
             console.log($scope.db.games);
             console.log($scope.backup.games);
         }
+        $scope.response = "done";
     };
     $scope.checkIfGameCard = function (game, index) {
         // console.log(game.CategoryID);
