@@ -1,8 +1,8 @@
 <div class="p-2">
     <form class="formIndex row d-flex align-items-center m-0 input-group mb-3" ng-submit="changeSearchText(data.searchText)">
-        <input class="form-control" name="limitElInPage" type="text" aria-describedby="button-apply-change-limit" ng-model="data.searchText">
+        <input class="form-control" name="limitElInPage" type="text" aria-describedby="button-search" ng-model="data.searchText">
         <div class="input-group-prepend">
-            <button class="btn btn-primary" type="submit" id="button-apply-change-limit">Изменить</button>
+            <button class="btn btn-primary" type="submit" id="button-search">Поиск</button>
         </div>
     </form>
     <div ng-include="'./src/components/listGames/limitElInPage.html'"></div>
@@ -20,4 +20,5 @@
             <div ng-include="'./src/components/listGames/cardGame.html'"></div>
         </div>
     </div>
+    <button class="btn btn-primary" ng-click="incrementLimit()">Загрузить ещё</button>
 </div>

@@ -56,6 +56,9 @@ listApp.controller("listController", function ($scope, $http) {
     $scope.changeLimit = function (val) {
         $scope.limit = parseInt(val);
     };
+    $scope.incrementLimit = function () {
+        $scope.limit = $scope.limit + $scope.limit;
+    };
     $scope.changeSearchText = function (val) {
         $scope.searchText = val;
     };
@@ -83,6 +86,7 @@ listApp.controller("listController", function ($scope, $http) {
                 }
             });
         }
+        $scope.changeLimit($scope.data.limit);
         $scope.response = "done";
     };
     $scope.addToBookmark = function (id) {
@@ -165,6 +169,7 @@ listApp.controller("listController", function ($scope, $http) {
             });
             $scope.db.games = arr.slice(0);
         }
+        $scope.changeLimit($scope.data.limit);
         $scope.response = "done";
     };
     $scope.changeMerchant = function (id) {
@@ -179,6 +184,7 @@ listApp.controller("listController", function ($scope, $http) {
             });
             $scope.db.games = arr.slice(0);
         }
+        $scope.changeLimit($scope.data.limit);
         $scope.response = "done";
     };
     $scope.findGame = function (text, arr) {
@@ -191,6 +197,7 @@ listApp.controller("listController", function ($scope, $http) {
         if (res.length === 0) {
             return false;
         }
+        $scope.changeLimit($scope.data.limit);
         return res;
     };
     $scope.checkIfGameCard = function (game, index) {

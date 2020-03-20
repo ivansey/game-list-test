@@ -47,6 +47,10 @@ listApp.controller("listController", ($scope, $http) => {
         $scope.limit = parseInt(val);
     }
 
+    $scope.incrementLimit = () => {
+        $scope.limit = $scope.limit + $scope.limit;
+    }
+
     $scope.changeSearchText = (val) => {
         $scope.searchText = val;
     }
@@ -74,6 +78,7 @@ listApp.controller("listController", ($scope, $http) => {
                 }
             })
         }
+        $scope.changeLimit($scope.data.limit);
         $scope.response = "done";
     }
 
@@ -153,6 +158,7 @@ listApp.controller("listController", ($scope, $http) => {
             })
             $scope.db.games = arr.slice(0);
         }
+        $scope.changeLimit($scope.data.limit);
         $scope.response = "done";
     }
 
@@ -168,6 +174,7 @@ listApp.controller("listController", ($scope, $http) => {
             })
             $scope.db.games = arr.slice(0);
         }
+        $scope.changeLimit($scope.data.limit);
         $scope.response = "done";
     }
 
@@ -181,6 +188,7 @@ listApp.controller("listController", ($scope, $http) => {
         if (res.length === 0) {
             return false;
         }
+        $scope.changeLimit($scope.data.limit);
         return res;
     }
 
