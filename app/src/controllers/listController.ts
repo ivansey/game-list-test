@@ -163,13 +163,45 @@ listApp.controller("listController", ($scope, $http) => {
         }
     }
 
-    $scope.checkIfGameCard = (category) => {
-        console.log(category);
-        if ($scope.category === "") {
-            return true;
-        } else if (category.indexOf($scope.category) !== -1) {
-            return true;
-        }        
+    $scope.changeMerchant = (id) => {
+        $scope.merchant = id;
+        let arr = [];
+        if ($scope.merchant !== "") {
+            $scope.backup.games.map((item) => {
+                if (item.MerchantID === $scope.merchant) {
+                    arr.push(item);
+                    console.log("item");
+                }
+            })
+            $scope.db.games = arr.slice(0);
+            console.log($scope.db.games);
+            console.log($scope.backup.games);
+        }
+    }
+
+    $scope.checkIfGameCard = (game, index) => {
+        // console.log(game.CategoryID);
+        // console.log(`Cat: ${$scope.category} === ${game.CategoryID[0]} && ${game.CategoryID[1]} && ${game.CategoryID[2]} (indexOf: ${game.CategoryID.indexOf($scope.category)})\nMerch: ${$scope.merchant} === ${game.MerchantID}`)
+        if (index < $scope.limit) {
+            if ($scope.category === "") {
+                if ($scope.merchant === "") {
+                    console.log("check true");
+                    return true;
+                } else if (game.MerchantID === $scope.merchant) {
+                    console.log("check true");
+                    return true;
+                }
+            } else if (game.CategoryID.indexOf($scope.category) !== -1) {
+                if ($scope.merchant === "") {
+                    console.log("check true");
+                    return true;
+                } else if (game.MerchantID === $scope.merchant) {
+                    console.log("check true");
+                    return true;
+                }
+            }
+        }
+        console.log("check false");        
         return false;
     }
 });

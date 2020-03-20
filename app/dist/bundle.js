@@ -175,14 +175,47 @@ listApp.controller("listController", function ($scope, $http) {
             console.log($scope.backup.games);
         }
     };
-    $scope.checkIfGameCard = function (category) {
-        console.log(category);
-        if ($scope.category === "") {
-            return true;
+    $scope.changeMerchant = function (id) {
+        $scope.merchant = id;
+        var arr = [];
+        if ($scope.merchant !== "") {
+            $scope.backup.games.map(function (item) {
+                if (item.MerchantID === $scope.merchant) {
+                    arr.push(item);
+                    console.log("item");
+                }
+            });
+            $scope.db.games = arr.slice(0);
+            console.log($scope.db.games);
+            console.log($scope.backup.games);
         }
-        else if (category.indexOf($scope.category) !== -1) {
-            return true;
+    };
+    $scope.checkIfGameCard = function (game, index) {
+        // console.log(game.CategoryID);
+        // console.log(`Cat: ${$scope.category} === ${game.CategoryID[0]} && ${game.CategoryID[1]} && ${game.CategoryID[2]} (indexOf: ${game.CategoryID.indexOf($scope.category)})\nMerch: ${$scope.merchant} === ${game.MerchantID}`)
+        if (index < $scope.limit) {
+            if ($scope.category === "") {
+                if ($scope.merchant === "") {
+                    console.log("check true");
+                    return true;
+                }
+                else if (game.MerchantID === $scope.merchant) {
+                    console.log("check true");
+                    return true;
+                }
+            }
+            else if (game.CategoryID.indexOf($scope.category) !== -1) {
+                if ($scope.merchant === "") {
+                    console.log("check true");
+                    return true;
+                }
+                else if (game.MerchantID === $scope.merchant) {
+                    console.log("check true");
+                    return true;
+                }
+            }
         }
+        console.log("check false");
         return false;
     };
 });

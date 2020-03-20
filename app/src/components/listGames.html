@@ -10,7 +10,7 @@
         <br/>
     </div>
     <div class="listGames row m-0">
-        <div class="game w-25" ng-repeat="game in db.games" ng-if="$index < limit">
+        <div class="game w-25" ng-repeat="game in db.games" ng-if="checkIfGameCard(game, $index)">
             <div ng-include="'./src/components/listGames/cardGame.html'"></div>
         </div>
     </div>
